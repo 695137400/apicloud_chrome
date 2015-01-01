@@ -4,9 +4,14 @@
           package="com.apicloud.pkg.sdk"
           android:versionCode="1" android:versionName="1.0">
 
-    <uses-sdk android:minSdkVersion="9"
+    <uses-sdk android:minSdkVersion="19"
               android:targetSdkVersion="28"/>
-
+    <!-- 访问网络  -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- 写外部存储  -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- 访问wifi网络信息,wifi信息可用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <application android:name="com.uzmap.pkg.uzapp.UZApplication"
                  android:allowBackup="false"
                  android:icon="@drawable/uz_icon"
@@ -14,7 +19,7 @@
                  android:largeHeap="true"
                  android:hardwareAccelerated="true"
                  tools:replace="android:icon,android:allowBackup"
-                >
+    >
 
         <meta-data android:name="uz_version" android:value="1.2.0"/>
 

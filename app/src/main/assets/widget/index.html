@@ -2,11 +2,12 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width"/>
-    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>WinC</title>
     <link rel="stylesheet" type="text/css" href="css/api.css"/>
     <link rel="stylesheet" href="css/aui.css">
+    <link rel="stylesheet" href="css/style.css">
     <style type="text/css">
         #header-w {
             min-height: 0;
@@ -34,83 +35,88 @@
     </style>
 </head>
 <body>
-<header id="header-w" class="aui-bar aui-bar-nav aui-bar-light" style="display: none;">
-    <!--<editor-fold desc="后退">-->
-    <button class="aui-pull-left aui-btn" style="left: 1em;">
-        <span class="aui-iconfont aui-icon-left"></span>
-    </button>
-    <!--</editor-fold>-->
-    <!--<editor-fold desc="前进">-->
-    <button class="aui-pull-left aui-btn" style="left: 1em;">
-        <span class="aui-iconfont aui-icon-right"></span>
-    </button>
-    <!--</editor-fold>-->
-    <div class="aui-title" style="left: 4.5em;right: 0.5em;">
-        <div class="aui-searchbar" style="background: #ffffff">
-            <div class="aui-searchbar-input aui-border-radius" style="background: #ebeced">
-                <input type="search" placeholder="请输入搜索内容" style="width: 95%;" oninput="search(this)">
-                <!--<editor-fold desc="清空输入框">-->
-                <div class="aui-searchbar-clear-btn input-clear" style="background-color: #ffffff" onclick="clearInput()"><i class="aui-iconfont aui-icon-close" style="font-size: 15px;color: #929292 !important;"></i></div>
-                <!--</editor-fold>-->
-                <!--<editor-fold desc="刷新">-->
-                <div style="display: none;">
-                    <div style="float: right;position: fixed;margin-left: 6px;"><i class="aui-iconfont aui-icon-minus" style="font-size: 11px;font-weight: bold;"></i></div>
-                    <div style="position: fixed;"><i class="aui-iconfont aui-icon-refresh"></i></div>
+<div id="wrap" class="flex-wrap flex-vertical">
+    <header id="header-w" class="aui-bar aui-bar-nav aui-bar-light" style="display: none;">
+        <!--<editor-fold desc="后退">-->
+        <button class="aui-pull-left aui-btn" style="left: 1em;">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </button>
+        <!--</editor-fold>-->
+        <!--<editor-fold desc="前进">-->
+        <button class="aui-pull-left aui-btn" style="left: 1em;">
+            <span class="aui-iconfont aui-icon-right"></span>
+        </button>
+        <!--</editor-fold>-->
+        <div class="aui-title" style="left: 4.5em;right: 0.5em;">
+            <div class="aui-searchbar" style="background: #ffffff">
+                <div class="aui-searchbar-input aui-border-radius" style="background: #ebeced">
+                    <input type="search" placeholder="请输入搜索内容" style="width: 95%;" oninput="search(this)">
+                    <!--<editor-fold desc="清空输入框">-->
+                    <div class="aui-searchbar-clear-btn input-clear" style="background-color: #ffffff" onclick="clearInput()"><i class="aui-iconfont aui-icon-close" style="font-size: 15px;color: #929292 !important;"></i></div>
+                    <!--</editor-fold>-->
+                    <!--<editor-fold desc="刷新">-->
+                    <div style="display: none;">
+                        <div style="float: right;position: fixed;margin-left: 6px;"><i class="aui-iconfont aui-icon-minus" style="font-size: 11px;font-weight: bold;"></i></div>
+                        <div style="position: fixed;"><i class="aui-iconfont aui-icon-refresh"></i></div>
+                    </div>
+                    <!--</editor-fold>-->
                 </div>
+                <!--<editor-fold desc="菜单管理">-->
+                <button class="aui-pull-right aui-btn" onclick="openMenu(2)">
+                    <span class="aui-iconfont aui-icon-menu"></span>
+                </button>
+                <!--</editor-fold>-->
+                <!--<editor-fold desc="窗口管理">-->
+                <button class="aui-pull-right aui-btn">
+                    <span class="aui-iconfont aui-icon-plus"></span>
+                </button>
+                <!--</editor-fold>-->
+                <!--<editor-fold desc="主页">-->
+                <button class="aui-pull-right aui-btn" onclick="screenOrientation()">
+                    <span class="aui-iconfont aui-icon-home"></span>
+                </button>
                 <!--</editor-fold>-->
             </div>
-            <!--<editor-fold desc="菜单管理">-->
-            <button class="aui-pull-right aui-btn" onclick="openMenu(2)">
-                <span class="aui-iconfont aui-icon-menu"></span>
-            </button>
-            <!--</editor-fold>-->
-            <!--<editor-fold desc="窗口管理">-->
-            <button class="aui-pull-right aui-btn">
-                <span class="aui-iconfont aui-icon-plus"></span>
-            </button>
-            <!--</editor-fold>-->
-            <!--<editor-fold desc="主页">-->
-            <button class="aui-pull-right aui-btn" onclick="screenOrientation()">
-                <span class="aui-iconfont aui-icon-home"></span>
-            </button>
-            <!--</editor-fold>-->
         </div>
-    </div>
-</header>
-<header id="header-h" class="aui-bar aui-bar-nav aui-bar-light">
-    <div class="aui-searchbar">
-        <div class="aui-searchbar-input aui-border-radius">
-            <input type="search" placeholder="请输入搜索内容" oninput="search(this)">
-            <div class="aui-searchbar-clear-btn input-clear" onclick="clearInput()">
-                <i class="aui-iconfont aui-icon-close"></i>
+    </header>
+    <header id="header-h" class="aui-bar aui-bar-nav aui-bar-light">
+        <div class="aui-searchbar">
+            <div class="aui-searchbar-input aui-border-radius">
+                <input type="search" placeholder="请输入搜索内容" oninput="search(this)">
+                <div class="aui-searchbar-clear-btn input-clear" onclick="clearInput()">
+                    <i class="aui-iconfont aui-icon-close"></i>
+                </div>
             </div>
         </div>
+    </header>
+    <div id="main" class="flex-con" style="background-color: rebeccapurple !important;">
+
     </div>
-</header>
-<footer class="aui-bar aui-bar-tab" id="footer">
-    <div class="aui-bar-tab-item aui-active" onclick="screenOrientation()">
-        <button>
-            <i class="aui-iconfont aui-icon-home"></i>
-        </button>
-    </div>
-    <div class="aui-bar-tab-item" onclick="openMenu(1)">
-        <button>
-            <i class="aui-iconfont aui-icon-menu"></i>
-        </button>
-    </div>
-    <div class="aui-bar-tab-item">
-        <button>
-            <span class="aui-badge">99</span>
-            <i class="aui-iconfont aui-icon-plus"></i>
-        </button>
-    </div>
-    <div class="aui-bar-tab-item">
-        <button>
-            <span class="aui-dot"></span>
-            <i class="aui-iconfont aui-icon-my"></i>
-        </button>
-    </div>
-</footer>
+    <footer class="aui-bar aui-bar-tab" id="footer">
+        <div class="aui-bar-tab-item aui-active" onclick="screenOrientation()">
+            <button>
+                <i class="aui-iconfont aui-icon-home"></i>
+            </button>
+        </div>
+        <div class="aui-bar-tab-item" onclick="openMenu(1)">
+            <button>
+                <i class="aui-iconfont aui-icon-menu"></i>
+            </button>
+        </div>
+        <div class="aui-bar-tab-item">
+            <button>
+                <span class="aui-badge">99</span>
+                <i class="aui-iconfont aui-icon-plus"></i>
+            </button>
+        </div>
+        <div class="aui-bar-tab-item">
+            <button>
+                <span class="aui-dot"></span>
+                <i class="aui-iconfont aui-icon-my"></i>
+            </button>
+        </div>
+    </footer>
+</div>
 </body>
 <script src="script/api.js"></script>
 <script src="script/jquery.js"></script>
@@ -121,7 +127,7 @@
         $api.fixStatusBar(header);
         api.setStatusBarStyle({
             style: 'light'
-        });
+        })
         window.addEventListener(window['onorientationchange'] ? 'orientationchange' : 'resize', () => {
             setTimeout(function () {
                 if (window.orientation == 0) {
@@ -141,6 +147,10 @@
                 }
             }, 100);
         }, false);
+        $('input[type=search]').bind('search', function (event) {
+            openSearch();
+        });
+        window.minHeight = $api.dom('#main').offsetHeight - $('footer')[0].offsetHeight;
     };
 
     function openMenu(type) {
@@ -199,6 +209,35 @@
     function clearInput() {
         $('input[type=search]').val('');
         $('.input-clear').hide();
+    }
+
+    function openSearch() {
+        var value = $('input[type=search]').val();
+        var regEx = /[http|https]/;
+        var url = '';
+        if (regEx.test(value)) {
+            url = value;
+        } else {
+            url = 'https://www.baidu.com/s?wd=' + value;
+        }
+        var h = 0;
+        var header_h = $('#header-h');
+        var header_w = $('#header-w');
+        if (header_h.is(':hidden')) {
+            h = header_w[0].offsetHeight;
+        } else {
+            h = header_h[0].offsetHeight;
+        }
+        api.openFrame({
+            name: 'frame' + uuid().replace(new RegExp('-','gi'), ''),
+            url: url,
+            rect: {
+                x: 0,
+                y: h,
+                w: api.winWidth,
+                h: minHeight
+            },
+        });
     }
 </script>
 </html>
