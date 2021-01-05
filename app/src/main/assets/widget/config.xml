@@ -9,4 +9,6 @@
     <preference name="bounces" value="true" />
     <preference name="debug" value="true" />
     <preference name="customRefreshHeader" value="cusHeader" />
+    <preference name="statusBarAppearance" value="true"/>
+    <preference name="setScreenOrientation" value="auto"/>
 </widget>

@@ -1,40 +1,43 @@
 apply plugin: 'com.android.application'
 
 android {
-
+    signingConfigs {
+        debugJks {
+            keyAlias 'lzc'
+            keyPassword '111111'
+            storeFile file('../key.jks')   //使用相对路径
+            storePassword '111111'
+        }
+    }
     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
     buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
-
     //useLibrary 'org.apache.http.legacy'
-
     defaultConfig {
         applicationId project.ANDROID_BUILD_APP_PKG
         targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
         versionCode Integer.parseInt(project.ANDROID_BUILD_VERSION_CODE)
         versionName project.ANDROID_BUILD_VERSION_NAME
-	    multiDexEnabled true
+        multiDexEnabled true
     }
-
     lintOptions {
         abortOnError false
-		checkReleaseBuilds false
+        checkReleaseBuilds false
     }
-
     aaptOptions {
         cruncherEnabled false
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    sourceSets{
-        main{
+    sourceSets {
+        main {
             jniLibs.srcDirs = ['libs']
         }
     }
-
+    dexOptions {
+        incremental true
+    }
 }
 
 repositories{
@@ -44,7 +47,7 @@ repositories{
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     //compile 'com.android.support:support-v4:26.0.0'
     compile 'com.android.support:multidex:1.0.1'
     //5个模块

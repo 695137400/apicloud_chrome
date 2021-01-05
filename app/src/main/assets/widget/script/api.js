@@ -1,67 +1,3 @@
-window.document.getElementsByTagName('html')[0].style.height= '90%';
-window.document.getElementsByTagName('body')[0].style.height= '90%';
-window.parent.document.getElementsByTagName('html')[0].style.height= '90%';
-window.parent.document.getElementsByTagName('body')[0].style.height= '90%';
-var api = {};
-api.systemType = 'android';
-api.openFrame = function (data) {
-    var im = window.im || window.parent.im;
-    if (!im || im.length <= 0) {
-        var iframe = document.createElement('iframe');
-        iframe.frameborder = 0;
-        iframe.height = '100%';
-        iframe.width = '100%';
-        iframe.name = 'mainIframe';
-        iframe.scrolling = 'yes';
-        iframe.src = data.url;
-        document.getElementsByTagName('body')[0].append(iframe);
-        window.im = document.getElementsByName('mainIframe');
-    } else {
-        im[0].src = data.url;
-        apiready()
-    }
-};
-api.openWin = function (data) {
-    console.log('openWin：', data.url);
-    window.parent.location.href = data.url;
-};
-api.parseTapmode = function () {
-
-};
-api.closeWin = function () {
-    window.parent.history.back()
-};
-api.setFrameGroupIndex = function (data) {
-    var frame = window.parent.frameGroup[data.name];
-    var url = frame.data[data.index].url;
-    var d = document.getElementsByTagName('body');
-    var iframe = document.createElement('iframe');
-    iframe.frameborder = 0;
-    iframe.height = '100%';
-    iframe.width = '100%';
-    iframe.name = 'mainIframe';
-    iframe.scrolling = 'yes';
-    iframe.src = url;
-    var im = document.getElementsByName('mainIframe');
-    if (im.length > 0) {
-        im[0].remove()
-    }
-    d[0].insertBefore(iframe, document.getElementsByTagName('footer')[0]);
-};
-api.openFrameGroup = function (data, func) {
-    window.parent.frameGroup = {};
-    window.parent.frameGroup[data.name] = {name: data.name, data: data.frames, index: 0};
-    api.setFrameGroupIndex({name: data.name, index: 0});
-    if (func) {
-        func({name: data.name, index: window.parent.frameGroup[data.name].index})
-    }
-};
-api.setStatusBarStyle=function () {
-
-};
-api.addEventListener=function (data) {
-
-};
 /*
  * APICloud JavaScript Library
  * Copyright (c) 2014 apicloud.com
@@ -569,7 +505,7 @@ api.addEventListener=function (data) {
             var ver = api.systemVersion;
             ver = parseFloat(ver);
             if(ver >= 4.4){
-                el.style.paddingTop = '25px';
+                el.style.paddingTop = api.safeArea.top+'px';
             }
         }
     };
@@ -667,11 +603,3 @@ api.addEventListener=function (data) {
     window.$api = u;
 
 })(window);
-
-
-setTimeout(function () {
-    var apiready = window.apiready;
-    if (apiready) {
-        apiready()
-    }
-}, 100);

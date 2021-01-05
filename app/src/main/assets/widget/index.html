@@ -5,30 +5,143 @@
     <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width"/>
     <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
     <title>WinC</title>
-    <link rel="stylesheet" type="text/css" href="css/api.css" />
-    <link rel="stylesheet" type="text/css" href="css/box.css" />
-    <script type="text/javascript" src="script/public.js"></script>
-    <style>
-    	p{
-    		color:#999;
-    		padding:5px;
-    	}
-    </style>
-	<script type="text/javascript">
-	    apiready = function(){
-			fixStatusBar();//沉浸式效果，支持IOS7及Android4.4及以上
-	    };
-	</script>
+    <link rel="stylesheet" type="text/css" href="css/api.css"/>
+    <link rel="stylesheet" href="css/aui.css">
 </head>
 <body>
-    <div id="wrap">
-        <div id='header'>
-
+<header id="header" class="aui-bar aui-bar-nav aui-bar-light">
+    <div class="aui-searchbar" id="search">
+        <div class="aui-searchbar-input aui-border-radius">
+            <input type="search" placeholder="请输入搜索内容" id="search-input">
+            <div class="aui-searchbar-clear-btn">
+                <i class="aui-iconfont aui-icon-close"></i>
+            </div>
         </div>
-        <div id="main"></div>
-        <div id="footer">
-
-        </div>
+        <a class="aui-pull-right aui-btn aui-btn-outlined">
+            <span class="aui-iconfont aui-icon-menu"></span>
+        </a>
     </div>
+</header>
+<footer class="aui-bar aui-bar-tab" id="footer">
+    <div class="aui-bar-tab-item aui-active" onclick="toTop()">
+        <i class="aui-iconfont aui-icon-home"></i>
+    </div>
+    <div class="aui-bar-tab-item" onclick="openMenu()">
+        <i class="aui-iconfont aui-icon-menu"></i>
+    </div>
+    <div class="aui-bar-tab-item">
+        <div class="aui-badge">99</div>
+        <i class="aui-iconfont aui-icon-calendar"></i>
+    </div>
+    <div class="aui-bar-tab-item">
+        <div class="aui-dot"></div>
+        <i class="aui-iconfont aui-icon-my"></i>
+    </div>
+</footer>
 </body>
+<script src="script/api.js"></script>
+<script src="script/jquery.js"></script>
+<script>
+    apiready = function () {
+        var header = $api.byId('header');
+        $api.fixStatusBar(header);
+        api.setStatusBarStyle({
+            style: 'light'
+        });
+        window.addEventListener(window['onorientationchange'] ? 'orientationchange' : 'resize', () => {
+            var seObj = window.seObj;
+            if (window.orientation == 0) {
+                if (seObj) {
+                    if (seObj.search) {
+                        $('#search').css(seObj.search);
+                    }
+                    if (seObj.radius) {
+                        $('.aui-border-radius').css(seObj.radius);
+                    }
+                    if (seObj.input) {
+                        $('#search-input').css(seObj.input);
+                    }
+                }
+            }
+            if (window.orientation == 90) {
+                if (!seObj) {
+                    window.seObj = {};
+                    seObj = {};
+                }
+                seObj.search = {'height': $('#search').height()};
+                $('#search').css({'height': '30px'});
+                seObj.radius = {'height': $('.aui-border-radius').height()};
+                $('.aui-border-radius').css({'height': '25px'});
+                seObj.input = {
+                    'font-size': $('#search-input').css('font-size'),
+                    'height': $('#search-input').height()
+                };
+                $('#search-input').css({'font-size': '14px', 'height': '25px'});
+                window.seObj = seObj;
+            }
+        }, true);
+    };
+
+    function openMenu() {
+        api.openFrame({
+            name: 'menu',
+            url: 'html/menu.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            animation: {
+                type: "push",                //动画类型（详见动画类型常量）
+                subType: "from_bottom",       //动画子类型（详见动画子类型常量）
+                duration: 300
+            },
+            bgColor: '#0000003b'
+        });
+    }
+
+    function toTop() {
+        var seObj = window.seObj;
+        if (window.orientation == 90) {
+            if (seObj) {
+                if (seObj.search) {
+                    $('#search').css(seObj.search);
+                }
+                if (seObj.radius) {
+                    $('.aui-border-radius').css(seObj.radius);
+                }
+                if (seObj.input) {
+                    $('#search-input').css(seObj.input);
+                }
+            }
+            setTimeout(function () {
+                api.setScreenOrientation({orientation: 'auto'});
+            }, 1);
+        }
+        if (window.orientation == 0) {
+            if (!seObj) {
+                window.seObj = {};
+                seObj = {};
+            }
+            seObj.search = {'height': $('#search').height()};
+            $('#search').css({'height': '30px'});
+            seObj.radius = {'height': $('.aui-border-radius').height()};
+            $('.aui-border-radius').css({'height': '25px'});
+            seObj.input = {
+                'font-size': $('#search-input').css('font-size'),
+                'height': $('#search-input').height()
+            };
+            $('#search-input').css({'font-size': '14px', 'height': '25px'});
+            window.seObj = seObj;
+            setTimeout(function () {
+                api.setScreenOrientation({orientation: "landscape_left"});
+            }, 1);
+        }
+    }
+
+    // api.frameHeight
+    // api.setScreenOrientation({orientation:"landscape_left"}) 横屏 window.orientation = 90
+    //  api.setScreenOrientation({orientation: 'auto'}); 竖屏 window.orientation = 0
+</script>
 </html>
