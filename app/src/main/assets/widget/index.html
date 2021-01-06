@@ -7,35 +7,108 @@
     <title>WinC</title>
     <link rel="stylesheet" type="text/css" href="css/api.css"/>
     <link rel="stylesheet" href="css/aui.css">
+    <style type="text/css">
+        #header-w {
+            min-height: 0;
+            height: 40px;
+        }
+
+        #header-w .aui-bar * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #header-w .aui-iconfont {
+            color: #000000 !important;
+            font-size: 24px;
+        }
+
+        button:active {
+            background-color: #d9d9d9;
+        }
+
+        button {
+            border: 0;
+            background-color: #ffffff;
+        }
+    </style>
 </head>
 <body>
-<header id="header" class="aui-bar aui-bar-nav aui-bar-light">
-    <div class="aui-searchbar" id="search">
+<header id="header-w" class="aui-bar aui-bar-nav aui-bar-light" style="display: none;">
+    <!--<editor-fold desc="后退">-->
+    <button class="aui-pull-left aui-btn" style="left: 1em;">
+        <span class="aui-iconfont aui-icon-left"></span>
+    </button>
+    <!--</editor-fold>-->
+    <!--<editor-fold desc="前进">-->
+    <button class="aui-pull-left aui-btn" style="left: 1em;">
+        <span class="aui-iconfont aui-icon-right"></span>
+    </button>
+    <!--</editor-fold>-->
+    <div class="aui-title" style="left: 4.5em;right: 0.5em;">
+        <div class="aui-searchbar" style="background: #ffffff">
+            <div class="aui-searchbar-input aui-border-radius" style="background: #ebeced">
+                <input type="search" placeholder="请输入搜索内容" style="width: 95%;" oninput="search(this)">
+                <!--<editor-fold desc="清空输入框">-->
+                <div class="aui-searchbar-clear-btn input-clear" style="background-color: #ffffff" onclick="clearInput()"><i class="aui-iconfont aui-icon-close" style="font-size: 15px;color: #929292 !important;"></i></div>
+                <!--</editor-fold>-->
+                <!--<editor-fold desc="刷新">-->
+                <div style="display: none;">
+                    <div style="float: right;position: fixed;margin-left: 6px;"><i class="aui-iconfont aui-icon-minus" style="font-size: 11px;font-weight: bold;"></i></div>
+                    <div style="position: fixed;"><i class="aui-iconfont aui-icon-refresh"></i></div>
+                </div>
+                <!--</editor-fold>-->
+            </div>
+            <!--<editor-fold desc="菜单管理">-->
+            <button class="aui-pull-right aui-btn" onclick="openMenu(2)">
+                <span class="aui-iconfont aui-icon-menu"></span>
+            </button>
+            <!--</editor-fold>-->
+            <!--<editor-fold desc="窗口管理">-->
+            <button class="aui-pull-right aui-btn">
+                <span class="aui-iconfont aui-icon-plus"></span>
+            </button>
+            <!--</editor-fold>-->
+            <!--<editor-fold desc="主页">-->
+            <button class="aui-pull-right aui-btn" onclick="screenOrientation()">
+                <span class="aui-iconfont aui-icon-home"></span>
+            </button>
+            <!--</editor-fold>-->
+        </div>
+    </div>
+</header>
+<header id="header-h" class="aui-bar aui-bar-nav aui-bar-light">
+    <div class="aui-searchbar">
         <div class="aui-searchbar-input aui-border-radius">
-            <input type="search" placeholder="请输入搜索内容" id="search-input">
-            <div class="aui-searchbar-clear-btn">
+            <input type="search" placeholder="请输入搜索内容" oninput="search(this)">
+            <div class="aui-searchbar-clear-btn input-clear" onclick="clearInput()">
                 <i class="aui-iconfont aui-icon-close"></i>
             </div>
         </div>
-        <a class="aui-pull-right aui-btn aui-btn-outlined">
-            <span class="aui-iconfont aui-icon-menu"></span>
-        </a>
     </div>
 </header>
 <footer class="aui-bar aui-bar-tab" id="footer">
-    <div class="aui-bar-tab-item aui-active" onclick="toTop()">
-        <i class="aui-iconfont aui-icon-home"></i>
+    <div class="aui-bar-tab-item aui-active" onclick="screenOrientation()">
+        <button>
+            <i class="aui-iconfont aui-icon-home"></i>
+        </button>
     </div>
-    <div class="aui-bar-tab-item" onclick="openMenu()">
-        <i class="aui-iconfont aui-icon-menu"></i>
+    <div class="aui-bar-tab-item" onclick="openMenu(1)">
+        <button>
+            <i class="aui-iconfont aui-icon-menu"></i>
+        </button>
     </div>
     <div class="aui-bar-tab-item">
-        <div class="aui-badge">99</div>
-        <i class="aui-iconfont aui-icon-calendar"></i>
+        <button>
+            <span class="aui-badge">99</span>
+            <i class="aui-iconfont aui-icon-plus"></i>
+        </button>
     </div>
     <div class="aui-bar-tab-item">
-        <div class="aui-dot"></div>
-        <i class="aui-iconfont aui-icon-my"></i>
+        <button>
+            <span class="aui-dot"></span>
+            <i class="aui-iconfont aui-icon-my"></i>
+        </button>
     </div>
 </footer>
 </body>
@@ -43,46 +116,38 @@
 <script src="script/jquery.js"></script>
 <script>
     apiready = function () {
-        var header = $api.byId('header');
+        api.removeLaunchView();
+        var header = $('#header-h')[0];
         $api.fixStatusBar(header);
         api.setStatusBarStyle({
             style: 'light'
         });
         window.addEventListener(window['onorientationchange'] ? 'orientationchange' : 'resize', () => {
-            var seObj = window.seObj;
-            if (window.orientation == 0) {
-                if (seObj) {
-                    if (seObj.search) {
-                        $('#search').css(seObj.search);
-                    }
-                    if (seObj.radius) {
-                        $('.aui-border-radius').css(seObj.radius);
-                    }
-                    if (seObj.input) {
-                        $('#search-input').css(seObj.input);
-                    }
+            setTimeout(function () {
+                if (window.orientation == 0) {
+                    api.setFullScreen({fullScreen: false});
+                    $('#header-h').show();
+                    $('#header-w').hide();
+                    $('#footer').show();
+                    var header = $('#header-h')[0];
+                    $api.fixStatusBar(header);
                 }
-            }
-            if (window.orientation == 90) {
-                if (!seObj) {
-                    window.seObj = {};
-                    seObj = {};
+                if (window.orientation == 90) {
+                    api.setFullScreen({fullScreen: true});
+                    $('#header-w').css({'padding-top': '0'});
+                    $('#header-w').show();
+                    $('#header-h').hide();
+                    $('#footer').hide();
                 }
-                seObj.search = {'height': $('#search').height()};
-                $('#search').css({'height': '30px'});
-                seObj.radius = {'height': $('.aui-border-radius').height()};
-                $('.aui-border-radius').css({'height': '25px'});
-                seObj.input = {
-                    'font-size': $('#search-input').css('font-size'),
-                    'height': $('#search-input').height()
-                };
-                $('#search-input').css({'font-size': '14px', 'height': '25px'});
-                window.seObj = seObj;
-            }
-        }, true);
+            }, 100);
+        }, false);
     };
 
-    function openMenu() {
+    function openMenu(type) {
+        var animationType = 'from_bottom';
+        if (type != 1) {
+            animationType = 'from_top';
+        }
         api.openFrame({
             name: 'menu',
             url: 'html/menu.html',
@@ -94,54 +159,46 @@
             },
             animation: {
                 type: "push",                //动画类型（详见动画类型常量）
-                subType: "from_bottom",       //动画子类型（详见动画子类型常量）
+                subType: animationType,       //动画子类型（详见动画子类型常量）
                 duration: 300
             },
-            bgColor: '#0000003b'
+            bgColor: '#00000000',
+            pageParam: {
+                type: type
+            }
         });
     }
 
-    function toTop() {
-        var seObj = window.seObj;
-        if (window.orientation == 90) {
-            if (seObj) {
-                if (seObj.search) {
-                    $('#search').css(seObj.search);
-                }
-                if (seObj.radius) {
-                    $('.aui-border-radius').css(seObj.radius);
-                }
-                if (seObj.input) {
-                    $('#search-input').css(seObj.input);
-                }
-            }
-            setTimeout(function () {
-                api.setScreenOrientation({orientation: 'auto'});
-            }, 1);
-        }
+    function screenOrientation() {
         if (window.orientation == 0) {
-            if (!seObj) {
-                window.seObj = {};
-                seObj = {};
-            }
-            seObj.search = {'height': $('#search').height()};
-            $('#search').css({'height': '30px'});
-            seObj.radius = {'height': $('.aui-border-radius').height()};
-            $('.aui-border-radius').css({'height': '25px'});
-            seObj.input = {
-                'font-size': $('#search-input').css('font-size'),
-                'height': $('#search-input').height()
-            };
-            $('#search-input').css({'font-size': '14px', 'height': '25px'});
-            window.seObj = seObj;
-            setTimeout(function () {
-                api.setScreenOrientation({orientation: "landscape_left"});
-            }, 1);
+            api.setScreenOrientation({orientation: "landscape_left"});
+            api.setFullScreen({fullScreen: false});
+            $('#header-w').css({'padding-top': '0'});
+            $('#header-w').show();
+            $('#header-h').hide();
+            $('#footer').hide();
+        }
+        if (window.orientation == 90) {
+            api.setScreenOrientation({orientation: 'auto'});
+            api.setFullScreen({fullScreen: true});
+            $('#header-h').show();
+            $('#header-w').hide();
+            $('#footer').show();
+            var header = $('#header-h')[0];
+            $api.fixStatusBar(header);
         }
     }
 
-    // api.frameHeight
-    // api.setScreenOrientation({orientation:"landscape_left"}) 横屏 window.orientation = 90
-    //  api.setScreenOrientation({orientation: 'auto'}); 竖屏 window.orientation = 0
+    function search(obj) {
+        if (obj.value.length > 0) {
+            $('.input-clear').show();
+        }
+        $('input[type=search]').val(obj.value);
+    }
+
+    function clearInput() {
+        $('input[type=search]').val('');
+        $('.input-clear').hide();
+    }
 </script>
 </html>
